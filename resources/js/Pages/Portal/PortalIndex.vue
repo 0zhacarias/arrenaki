@@ -4,7 +4,7 @@
         <template class="pb-0 ">
 
             <v-toolbar-title class="darken-3 elevation-0 ">
-                <v-img gradient="to top right, rgba(255,115,201,.1), rgba(25,32,72,.6)"
+                <v-img gradient="to top right, rgba(55,5,201,.1), rgba(25,32,72,.6)"
                     :style="'white-space:nowrap; padding:0;max-width: 100%;height:75vh; position:relative;top:10px;'"
                     src="/img/angola.jpg">
                     <v-row class="p-0">
@@ -15,7 +15,7 @@
 
                                 <h1 class="text-h1 my-6 py-6 "> Encontre a casa que você deseja</h1>
                                 <p class="text-h2 my-6 text-center mb-12" >Arrende conosco.</p>
-                                <v-btn color="#7B1FA2 " class="white--text center py-6 ">
+                                <v-btn color="#FF5E00 " class="white--text center py-6 ">
                                     Arrendar agora
                                 </v-btn>
                             </v-card>
@@ -36,35 +36,35 @@
                             sint aliquid dolorem rem optio inventore nobis eaque quasi molestiae, quos architecto quod
                             laboriosam, esse amet.</span>
                     </v-card-text>
-                    <v-col v-for="item in novos_imoveis" :key="item.id" cols="12" sm="12" md="6" lg="6" 
+                    <v-col v-for="item in novos_imoveis" :key="item.id" cols="12" sm="12" md="6" lg="6"
                         :style="'max-width: min-content;'" >
                         <v-hover v-slot="{ hover }">
 
                             <v-card class="mx-5 my-12 elevation-10" max-width="420" @click="findImoveis(item.id)"
                                 :elevation="hover ? 10 : 1">
                                 <v-img height="250" :src="'/storage/' + item.foto_principal"></v-img>
-                                <v-card-text class="mb-0 pb-0 black--text center"> Código: {{ item.codigo_imovel }}</v-card-text>
-                                <v-card-text class="mt-0 py-0 purple--text text-h4  center">
+                              <!--   <v-card-text class="mb-0 pb-0 black--text center"> Código: {{ item.codigo_imovel }}</v-card-text> -->
+                                <v-card-text class="mt-0 py-0 deep-orange--text text-h4  center">
                                     {{ formatValor(item.preco) }} AKZ
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Tipologia: 
-                                    <span class="my-0 py-0 purple--text" v-text="item.tipologia_imoveis.designacao"></span>
+                                <v-card-text class="my-0 py-0 center"> Tipologia:
+                                    <span class="my-0 py-0 deep-orange--text" v-text="item.tipologia_imoveis.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Provincia: 
+                                <v-card-text class="my-0 py-0 center"> Provincia:
                                     <span class="my-0 py-0 black--text" v-text="item.municipio.provincia.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Municipio: 
+                                <v-card-text class="my-0 py-0 center"> Municipio:
                                     <span class="my-0 py-0 black--text" v-text="item.municipio.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Enderenço: 
+                                <v-card-text class="my-0 py-0 center"> Enderenço:
                                     <span class="my-0 py-0 black--text" v-text="item.rua_bairro"></span>
                                 </v-card-text>
                                 <v-card-text class="my-0 py-0 center"> Mobiliado:
                                     <span class="my-0 py-0 black--text" v-text="item.mobiliado"></span>
                                 </v-card-text>
-                          
-                               
-                                <v-card-text class="my-0 py-0 center" > Estado: 
+
+
+                                <v-card-text class="my-0 py-0 center" > Estado:
                                     <v-chip title="estado do imóvel" dense outlined class="white--text"
                                         :color="getcor(item.estado_imoveis_id)">
                                         <span v-if="item.estado_imoveis_id == 1" class="mdi mdi-archive-lock-open "></span>
@@ -77,7 +77,7 @@
                                  <!--    <span class="my-0 py-0 black--text" v-text="item.estado_imoveis.designacao"></span> -->
                                 </v-card-text>
                                 <v-card-text>
-                                    <v-btn class="ml-auto white--text " block  dense color="#7B1FA2" @click="marcarVisita()">
+                                    <v-btn class="ml-auto white--text " block  dense color="#FF5E00" @click="marcarVisita()">
                                         Detalhes
 
                                     </v-btn>
@@ -92,7 +92,7 @@
                         </v-col> -->
                         <v-spacer />
                         <v-col cols="5">
-                            <v-pagination @input="paginacao(page)" color="#7B1FA2" v-model="page" :length="last_page" circle></v-pagination>
+                            <v-pagination @input="paginacao(page)" color="#FF5E00" v-model="page" :length="last_page" circle></v-pagination>
                         </v-col>
                     </v-row>
 
@@ -287,7 +287,7 @@ table {
 
  .center {
   text-align: center;
-} 
+}
 .borda-white {
     border: 2px solid rgb(255, 255, 255)
 }

@@ -2,14 +2,14 @@
     <v-app>
         <v-toolbar flat class="header1 elevation-0 py-0" color="white ">
             <v-toolbar-title><a href="/" style="text-decoration: none"><v-avatar size="40"
-                        color="deep-purple darken-3"><v-icon color="white" large>home</v-icon></v-avatar>
-                    <span class="deep-purple--text hidden-xs-only text-bold"> Arrendaki</span>
+                        color="#FF5E00"><v-icon color="white" large>home</v-icon></v-avatar>
+                    <span class="deep-orange--text hidden-xs-only text-bold"> Arrendaki</span>
                 </a>
             </v-toolbar-title>
     <v-spacer class=""></v-spacer>
             <v-toolbar-items>
                 <v-btn
-                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#000"  href="/" 
+                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#000"  href="/"
                     elevation="0" text>
                     Inicio
                 </v-btn>
@@ -27,35 +27,35 @@
                     class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" elevation="0" text>
                     Cadastrar Casas
                 </v-btn>
-            
+
             </v-toolbar-items>
-           
+
             <v-toolbar-items>
-                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" href="/logar"  
+                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" href="/logar"
                     elevation="0" text>
                     Login
                 </v-btn>
-                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5 white--text" color="#7B1FA2" href="/RegistrarConta"                     
+                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5 white--text" color="#FF5E00" href="/RegistrarConta"
                 elevation="0" >
                     Cadastra-me
                 </v-btn>
-                <v-btn v-if="user !== null &&  user.can['Gerir Anúncios']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-anuncios"                     
+                <v-btn v-if="user !== null &&  user.can['Gerir Anúncios']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-anuncios"
                 elevation="0" text>
                     Gerir casas
                 </v-btn>
-                <v-btn v-if="user !== null &&  user.can['Gerir Pedidos']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-processo"                     
+                <v-btn v-if="user !== null &&  user.can['Gerir Pedidos']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-processo"
                 elevation="0" text>
                     Meus pedidos
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Funcionario']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/pessoa"                     
+                <v-btn v-if="user !== null && user.can['Gerir Funcionario']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/pessoa"
                 elevation="0"  text>
                 Funcionarios
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Relatórios']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"                     
+                <v-btn v-if="user !== null && user.can['Gerir Relatórios']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"
                 elevation="0"  text>
-                    Relatório 
+                    Relatório
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Permissões']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"                     
+                <v-btn v-if="user !== null && user.can['Gerir Permissões']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"
                 elevation="0"  text>
                     Permissões
                 </v-btn>
@@ -70,7 +70,7 @@
                    perfil<br />
                     <!-- {{ user.email}} -->
                 </v-btn>
-               
+
                 <v-btn class="hidden-xs-only" text v-if="user !== null" @click="logout" title="Terminar Sessão"> {{ user.name}}
                     <v-icon>mdi-export{{ }}</v-icon>
                 </v-btn>
@@ -123,19 +123,16 @@
                         </v-dialog>
 
 
-            <v-card-text class="text-center">
+       <!--      <v-card-text class="text-center">
                 <v-btn v-for="icon in icons" :key="icon" icon>
                     <v-icon color="#6A1B9A" size="24px">{{ icon }}</v-icon>
                 </v-btn>
-            </v-card-text>
+            </v-card-text> -->
             <v-card-text class="text-center">
-                Kubicos é um site classificado para facilitar a compra, venda e aluguel de residências habitacionais em
-                zonas u
-                rbanas de Angola.
                 <v-divider></v-divider>
                 {{ new Date().getFullYear() }}-
-                <strong>SIG-VAI
-                    <span class="font-weight-light">(Sistema de Gestão de Venda e Arrendamento de Imóveis)</span>
+                <strong>ARRENDAKI
+                  <!--   <span class="font-weight-light">(Sistema de Gestão de Venda e Arrendamento de Imóve is)</span> -->
                 </strong>
             </v-card-text>
 
@@ -235,14 +232,14 @@ export default {
                     this.$inertia.get('/portal/imoveis').then((response) => {
                 }).catch((error) => {
                     console.log(error);
-  
+
                 });
-                }else{ 
-                     
+                }else{
+
                    this.dialogVerificarInformacoes = true
                 }
 
- 
+
             } else {
                 window.location.href = "/logar" ;
             }

@@ -26,21 +26,26 @@
         " required />
                             </v-col>
                             <v-col>
+
                             <v-alert outlined dismissible transition="scale-transition" text v-if="alert.type == 'success'"
                                 type="success">
                                 {{ alert.text }}
                             </v-alert>
                             <v-alert dismissible transition="scale-transition" outlined v-if="alert.type == 'error'"
                                 type="error">
-                                {{ alert.text }}
+                                {{ $message}}
                             </v-alert>
 
-                            <v-btn block color="#7B1FA2" dense dark x-large @click="setLogin()" >
+                            <v-btn block color="#FF5E00" dense dark x-large @click="setLogin()" >
                                 <v-icon>login</v-icon> Iniciar
                                 Sessão
                             </v-btn>
                             </v-col>
-
+                            <div v-if="errors.length > 0">
+            <ul>
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+            </ul>
+        </div>
                             <v-col cols="12" md="12">
                                 <div >
                     <p class="ml-4 pb-1 subtitle">
@@ -78,6 +83,7 @@ export default {
             text: "",
             type: ""
         },
+        errors: [],
         showPassword: false,
         isValid: true,
         overlay: false,
@@ -128,24 +134,31 @@ export default {
                 this.previousUrls.pop(); // Remove a URL mais antiga
             }
         },
-        setLogin() {
-            //    this.$inertia.visit('/login', { data: { redirectRoute: window.location.href } });
-            // this.user.rotas=
-            const url1 = this.previousUrls.pop();
-            const url2 = this.previousUrls.pop();
-            this.previousUrls.unshift();
-            alert(this.previousUrls);
-            // this.previousUrls.push(url);
+        async  setLogin() {
+            try {
+                const { data } = await this.$inertia.post('/login', this.user);
+                this.$inertia.visit(data);
 
-            // Garantir que o array tenha no máximo duas URLs armazenadas
-            if (this.previousUrls.length > 2) {
-                this.previousUrls.shift(); // Remover a URL mais antiga
+               alert(1)
+                // Redirecionar para a página de dashboard após o login bem-sucedido
+                //this.$inertia.visit(data);
+            } catch (error) {
+                if (error.response.status === 422) {
+                    this.error = error.response.data.errors.email[0];
+                } else {
+                    this.error = 'Ocorreu um erro durante o processo de login. Por favor, tente novamente.';
+                }
+                }
             }
-            // this.previousUrl = window.location.href;
-            //   alert( this.previousUrls);
+          /*  this.$inertia.post(
+                "/login", this.user,
+                        {
+                        }
 
-            this.$inertia.post("/login", this.user, {});
-        },
+                    );
+*/
+        //    this.$inertia.post("/login", this.user, {});
+
     },
 };
 </script>

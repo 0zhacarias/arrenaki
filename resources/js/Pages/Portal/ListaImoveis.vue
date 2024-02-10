@@ -283,7 +283,7 @@
                                         </v-row>
                                     </v-list-item-content>
 
-                            
+
                                 </template>
 
                             </v-card>
@@ -296,7 +296,7 @@
                                     :style="'max-width: min-content;'">
                                     <v-hover v-slot="{ hover }">
 
-                                        <v-card class="mx-5 elevation-10" max-width="420" @click="findImoveis(item.id)"
+                                        <v-card class="mx-5 elevation-10" max-width="350" @click="findImoveis(item.id)"
                                             :elevation="hover ? 10 : 1">
                                             <v-col md="12" class="ma-0 pa-0 imagensFocos " :class="{ 'on-hover': hover }">
                                                 <template>
@@ -308,13 +308,13 @@
                                                 </template>
                                             </v-col>
                                             <!-- <v-img height="250" :src="'/storage/' + item.foto_principal"></v-img> -->
-                                            <v-card-text class="mb-0 pb-0 black--text text-center"> Código: {{
-                                                item.codigo_imovel }}</v-card-text>
-                                            <v-card-text class="mt-0 py-0 purple--text text-h4  text-center">
+<!--                                             <v-card-text class="mb-0 pb-0 black--text text-center"> Código: {{
+                                                item.codigo_imovel }}</v-card-text> -->
+                                            <v-card-text class="mt-0 py-0 deep-orange--text text-h4  text-center">
                                                 {{ formatValor(item.preco) }} AKZ
                                             </v-card-text>
                                             <v-card-text class="my-0 py-0 text-center"> Tipologia:
-                                                <span class="my-0 py-0 purple--text text-h6 text-bold"
+                                                <span class="my-0 py-0 deep-orange--text text-h6 text-bold"
                                                     v-text="item.tipologia_imoveis.designacao"></span>
                                             </v-card-text>
                                             <v-card-text class="my-0 py-0 text-center"> Provincia:
@@ -349,7 +349,7 @@
                                                 <!--    <span class="my-0 py-0 black--text" v-text="item.estado_imoveis.designacao"></span> -->
                                             </v-card-text>
                                             <v-card-text>
-                                                <v-btn class="ml-auto white--text " block dense color="#7B1FA2"
+                                                <v-btn class="ml-auto white--text " block dense color="#FF5E00"
                                                     @click="marcarVisita()">
                                                     Detalhes
 
@@ -365,7 +365,7 @@
                                     </v-col>
                                     <v-spacer />
                                     <v-col cols="5">
-                                        <v-pagination @input="paginacao(dados.page)" v-model="dados.page"
+                                        <v-pagination color="#FF5E00" @input="paginacao(dados.page)" v-model="dados.page"
                                             :length="last_page" circle></v-pagination>
                                     </v-col>
                                 </v-row>

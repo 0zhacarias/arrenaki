@@ -13,7 +13,8 @@
                             <v-stepper-items>
                                 <v-stepper-content step="1">
                                     <v-card elevation="0">
-                                        <v-form v-model="isValid">
+                                        <v-form v-model="isValid"  ref="form" lazy-validation>
+                                            <h1>Login</h1>
                                             <v-row class="pa-3">
                                                 Dados Pessoais
                                                 <v-col cols="12">
@@ -24,7 +25,7 @@
                                                 </v-col>
                                                 <v-col cols="12">
 
-                                                    <v-text-field :rules="[rules.required]" placeholder="Identidade*"
+                                                    <v-text-field :rules="docRules" placeholder="Identidade*"
                                                         outlined dense label="Identidade*" name="name"
                                                         v-model="user.numero_identificacao" prepend-icon="mdi-account-circle" />
                                                 </v-col>
@@ -37,8 +38,12 @@
                                                 </v-col>
                                                 <v-col cols="12" md="12">
                                                     <v-col cols="12">
-                                                        <v-btn block color="#7B1FA2" dark 
-                                                            @click="e1 = 2"><v-icon></v-icon> Continuar
+
+                                                        <v-btn block color="#FF5E00" dark
+                                                        @click="continuar(2, 'form')"
+                                                           >
+                                                            <v-icon></v-icon> Continuar
+                                                          <!--   @click="e1 = 2" -->
                                                         </v-btn>
                                                     </v-col>
 
@@ -49,7 +54,7 @@
                                 </v-stepper-content>
 
                                 <v-stepper-content step="2">
-                                  
+
                                         <v-form v-model="isValid">
                                             <v-row class="pa-3">
                                                 Utilizador
@@ -84,26 +89,26 @@
                                                         item-color="indigo" required />
                                                 </v-col>
                                                     <v-col cols="12">
-                                                        <v-btn block color="#7B1FA2" dark 
+                                                        <v-btn block color="#FF5E00" dark
                                                             @click="e1 = 3"><v-icon></v-icon> Continuar
                                                         </v-btn>
-                                                        <v-btn  color="indigo" dark class="my-3"
-                                                            @click="e1 = 1"><v-icon>fa fa-arrow-left </v-icon> 
+                                                        <v-btn  color="#FF5E00" dark class="my-3"
+                                                            @click="e1 = 1"><v-icon>fa fa-arrow-left </v-icon>
                                                         </v-btn>
                                       </v-col>
                                             </v-row>
                                         </v-form>
-                               
+
                                </v-stepper-content>
 
                                 <v-stepper-content step="3">
-                          
+
                                     <v-form v-model="isValid">
                                             <v-row class="pa-3">
                                                 Utilizador
                                                 <v-col cols="12">
                                                     <v-autocomplete :rules="[rules.required]" outlined id="espacotrabalho"
-                                                        label="Provincia" v-model="user.provincia_id"  @change="getMunicipio()" 
+                                                        label="Provincia" v-model="user.provincia_id"  @change="getMunicipio()"
                                                         name="tipo_utilizador" dense
                                                         item-text="designacao"
                                                         item-value="id"
@@ -112,7 +117,7 @@
                                                 </v-col>
                                                 <v-col cols="12">
                                                     <v-autocomplete :rules="[rules.required]" outlined id="espacotrabalho"
-                                                        label="Muicípio" v-model="user.municipio_id"
+                                                        label="Município" v-model="user.municipio_id"
                                                         item-text="designacao"
                                                         item-value="id"
                                                         name="municipio" dense :items="municipios" prepend-icon="mdi-lock"
@@ -129,17 +134,17 @@
                                                         v-model="user.rua" prepend-icon="mdi-account-circle" />
                                                 </v-col>
                                                     <v-col cols="12">
-                                                        <v-btn block color="#7B1FA2" dark class="my-2"
+                                                        <v-btn block color="#FF5E00" dark class="my-2"
                                                             @click="setLogin()"><v-icon>login</v-icon> Cadastrar
                                                         </v-btn>
-                                                        <v-btn  color="indigo" dark 
-                                                            @click="e1 = 2"><v-icon> fa fa-arrow-left </v-icon> 
+                                                        <v-btn  color="#FF5E00" dark
+                                                            @click="e1 = 2"><v-icon> fa fa-arrow-left </v-icon>
                                                         </v-btn>
                                                     </v-col>
 
                                             </v-row>
                                         </v-form>
-                              
+
                                 </v-stepper-content>
                             </v-stepper-items>
                         </v-stepper>
@@ -184,6 +189,10 @@ export default {
         emailRules: [
             (value) => /.+@.+\..+/.test(value) || /^\d{9}$/.test(value) || "E-mail ou numero de telefone válido",
         ],
+        docRules: [
+                (value)=>(value.length == 14 && /^\d{9}[A-Z]{2}\d{3}$/.test(value)) || "O nº de documento não corresponde com o padrão!!!"
+                        ],
+
 
         placa: ['Rangel', 'Benfica', 'Cazenga'],
 
@@ -200,6 +209,11 @@ export default {
     mounted() { },
 
     methods: {
+        continuar(stepe, form) {
+            if (this.$refs[form].validate()) {
+                this.e1 = stepe;
+            }
+        },
         getMunicipio() {
             this.id_provincia.id = this.user.provincia_id
             axios

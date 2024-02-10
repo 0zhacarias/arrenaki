@@ -11,37 +11,37 @@
         <v-card align="center" justify="center" elevation="0" class="w-50 border-3">
             <v-img height="250" :src="'/storage/' + casa_selecionada.foto_principal"></v-img>
                                 <v-card-text class="mb-0 pb-0 black--text center"> Código: {{ casa_selecionada.codigo_imovel }}</v-card-text>
-                                <v-card-text class="mt-0 py-0 purple--text text-h4  center">
+                                <v-card-text class="mt-0 py-0 deep-orange--text text-h4  center">
                                     {{ formatValor(casa_selecionada.preco) }} AKZ
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Tipologia: 
+                                <v-card-text class="my-0 py-0 center"> Tipologia:
                                     <span class="my-0 py-0 purple--text" v-text="casa_selecionada.tipologia_imoveis.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Provincia: 
+                                <v-card-text class="my-0 py-0 center"> Provincia:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.municipio.provincia.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Municipio: 
+                                <v-card-text class="my-0 py-0 center"> Municipio:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.municipio.designacao"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 center"> Enderenço: 
+                                <v-card-text class="my-0 py-0 center"> Enderenço:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.rua_bairro"></span>
                                 </v-card-text>
                                 <v-card-text class="my-0 py-0 center"> Mobiliado:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.mobiliado"></span>
                                 </v-card-text>
-                             <!--    <v-card-title class="my-0 py-0 justify-content-center" > Designação: 
+                             <!--    <v-card-title class="my-0 py-0 justify-content-center" > Designação:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.designacao"></span>
                                 </v-card-title> -->
                                 <v-divider></v-divider>
-                                <v-card-text class="my-0 py-0 justify-content-center" > Data Inicial de contrato: 
+                                <v-card-text class="my-0 py-0 justify-content-center" > Data Inicial de contrato:
                                     <span class="my-0 py-0 black--text" v-text="data_contrato"></span>
                                 </v-card-text>
-                                <v-card-text class="my-0 py-0 justify-content-center" > Data final de contrato: 
+                                <v-card-text class="my-0 py-0 justify-content-center" > Data final de contrato:
                                     <span class="my-0 py-0 black--text" v-text="data_contrato_fim"></span>
                                 </v-card-text>
                                 <v-card-text>
-                                    <v-btn class="ml-auto white--text " block  dense color="#7B1FA2" @click="imprimirContrato()">
-                                        Imprimir contrato
+                                    <v-btn class="ml-auto white--text " block  dense color="#FF5E00" @click="imprimirContrato()">
+                                        Imprimir recibo
 
                                     </v-btn>
                                 </v-card-text>
@@ -55,7 +55,7 @@
 </v-row>
   </v-container>
 
-                        
+
 
 </PortalLayout>
 </template>
@@ -79,7 +79,7 @@ export default {
         user() {
             return this.$page.props.auth.user;
         },
-    
+
     },
 
     created() {

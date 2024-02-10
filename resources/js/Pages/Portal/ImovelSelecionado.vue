@@ -19,7 +19,7 @@
                         <v-card-text class="text-h5 ">
                             <v-divider></v-divider>
 
-                            <p class="text-h3 text-center purple--text">{{
+                            <p class="text-h3 text-center deep-orange--text">{{
                                 formatValor(imoveis.preco) }}</p>
                             <v-card-subtitle>
                                 Descrição do Imóvel: {{ imoveis.descricao }} AKZ
@@ -45,7 +45,7 @@
                             </v-card>
                             <v-row justify="space-around" class="pt-6">
                                 <v-col cols="12">
-                                    <v-autocomplete :rules="required" outlined 
+                                    <v-autocomplete :rules="required" outlined
                                         label="Tipo de contrato (Meses)" v-model="visitar.tipo_contrato" @change="getMunicipio()"
                                         name="tipo_utilizador" dense item-text="designacao" item-value="id"
                                         :items="contratos" item-color="indigo" required />
@@ -57,7 +57,7 @@
                                 </v-col>
                                 <v-col cols="12">
 
-                                    <v-btn :disabled="visitar.data_contrato==null" class="white--text" block x-large color="#7B1FA2"
+                                    <v-btn :disabled="visitar.data_contrato==null" class="white--text" block x-large color="#FF5E00"
                                         @click="marcarVisita()">
 
                                         {{ 'Arrendar' }}
@@ -231,7 +231,7 @@ export default {
             }
             this.activateImage(active);
         },
-        // Go backwards on the images array 
+        // Go backwards on the images array
         // or go at the last image
         prevImage() {
             var active = this.activeImage - 1;

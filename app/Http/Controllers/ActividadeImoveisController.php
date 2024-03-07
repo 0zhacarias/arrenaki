@@ -7,7 +7,7 @@ use App\Mail\EmailSolicitarVisitas;
 use App\Models\ActividadeImoveis;
 use App\Models\Imoveis;
 use App\Models\Pessoa;
-use App\Models\SolicitarImoveis;
+use App\Models\ArrendarImoveis;
 use App\Models\User;
 use PDF;
 use Illuminate\Http\Request;
@@ -129,7 +129,7 @@ class ActividadeImoveisController extends Controller
         $preco = $imovel->preco;
         $condicao_imovel = $imovel->condicaoImoveis->designacao;
         //Informação da visita
-       // dd($cliente,$preco,$condicao_imovel);  
+       // dd($cliente,$preco,$condicao_imovel);
         $url = action([ImoveisController::class, 'portal_imovel']);
         // dd($solicitavisita);
 
@@ -173,7 +173,7 @@ class ActividadeImoveisController extends Controller
     {
         // Pode ser usado esse para as provas de caixa branca
         $imovel = Imoveis::find($request->imovel_id);
-        $solicitavisita = SolicitarImoveis::with('usuario_marca_visita')
+        $solicitavisita = ArrendarImoveis::with('usuario_marca_visita')
             ->where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
         $mensagem = 'Nada Marcado.';
         if ($imovel->estado_imoveis_id == 1) {
@@ -209,7 +209,7 @@ class ActividadeImoveisController extends Controller
 
             );
         }
-      $solicitavisita = SolicitarImoveis::where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
+      $solicitavisita = ArrendarImoveis::where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
       // $mensagem = 'A sua marcação foi aceite no horário desejado.';
       // $this->emailValidar($solicitavisita, $mensagem);
        //$this->enviarSms($request->imovel_id, $mensagem);
@@ -222,7 +222,7 @@ class ActividadeImoveisController extends Controller
     }
     public function nao_validar_processo(Request $request)
     {
-        //$solicitavisita = SolicitarImoveis::with('usuario_marca_visita')->where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
+        //$solicitavisita = ArrendarImoveis::with('usuario_marca_visita')->where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
         //$mensagem = 'A sua marcação não foi aceite no horário desejado, por favor volte a reagendar o mesmo.';
         //$this->emailValidar($solicitavisita, $mensagem);
         //$this->enviarSms($request->imovel_id, $mensagem);
@@ -246,16 +246,8 @@ class ActividadeImoveisController extends Controller
     }
     public function cancelar_processo(Request $request)
     {
-        $solicitavisita = SolicitarImoveis::with('usuario_marca_visita')->where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
-        
-        $mensagem = 'Devido algumas inregularidade no processo de negociação , foi cancelado o imóvel processo, e estará disponivel para outros interessado ...';
-
-        $this->emailValidar($solicitavisita, $mensagem);
-        //$this->enviarSms($request->imovel_id, $mensagem);
+        $solicitavisita = ArrendarImoveis::with('usuario_marca_visita')->where('imoveis_id', $request->imovel_id)->where('funcionario_id', null)->first();
         $imovel = Imoveis::find($request->imovel_id);
-       // $actividade = ActividadeImoveis::where('imoveis_id', $request->imovel_id)->select('cadastrado_por')->first();
-        //$pessoa_id = Pessoa::where('user_id', $actividade->cadastrado_por)->first();
-        //$numerofone = "+244" . $pessoa_id->numero_telefone;
         $imovel->update(
             ['estado_imoveis_id' => 1,]
         );
@@ -298,8 +290,8 @@ class ActividadeImoveisController extends Controller
     }
     public function emitir_anuncio($id)
     {
-        $emissaoarquivo = Imoveis::with('fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
-            ->find($id);
+        $emissaoarquivo = Imoveis::with('municipio.provincia','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
+            ->where('id',$id)->get();
         $userLog = auth()->user()->load('tipo_user');
         $user = User::where('id', $userLog->id)->get();
 
@@ -308,19 +300,24 @@ class ActividadeImoveisController extends Controller
             'datatime' => date("Y-m-d"),
             'user' => $user,
         ]);
-        // dd($pdf );
+
         return $pdf->stream('Listas tipo de problemas projecto.pdf');
     }
     public function emitir_relatorios_processo()
     {
-
-        $emissaoarquivo = Imoveis::with('fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
+        $userLog = auth()->user()->load('tipo_user');
+        if($userLog->tipo_user_id==1){
+            $emissaoarquivo = Imoveis::with('tipologiaImoveis','municipio.provincia','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
             ->get();
-
-            $userLog = auth()->user()->load('tipo_user');
-            $id_user_marca_visita=SolicitarImoveis::where('user_marca_visita',auth()->user()->id)->select('imoveis_id')->get();
-            $emissaoarquivo= Imoveis::whereIn('id', $id_user_marca_visita)
-                ->with('solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
+        }else if($userLog->tipo_user_id==2){
+            $updateSolicitavisita = ArrendarImoveis::where('user_marca_visita',$userLog->id)
+            ->select('imoveis_id')->get();
+            $emissaoarquivo = Imoveis::with('tipologiaImoveis','municipio.provincia','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
+                ->whereIn('id',$updateSolicitavisita)->get();
+        }else{
+            $emissaoarquivo = Imoveis::with('tipologiaImoveis','municipio.provincia','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis', 'categoria', 'usuario.pessoa', 'condicaoImoveis')
+                ->where('cadastrado_por',$userLog->id)->get();
+        }
         // $user = User::where('id', $userLog->id)->get();
 
         $pdf = PDF::loadView('emitirRelatorioProcesso', [
@@ -328,15 +325,14 @@ class ActividadeImoveisController extends Controller
             'datatime' => date("Y-m-d"),
             // 'user'=>$user,
         ]);
-        // dd($pdf );
         return $pdf->stream('Listas tipo de problemas projecto.pdf');
     }
     public function gostar_imovel(Request $request)
     {
         $imovel = Imoveis::find($request->imovel_id);
-      
+
         $imovel = Imoveis::find($request->imovel_id);
-        $solicitavisita = SolicitarImoveis::with('confirmar_marcacao_visita', 'imovel.condicaoImoveis')->where('imoveis_id', $request->imovel_id)->first();
+        $solicitavisita = ArrendarImoveis::with('confirmar_marcacao_visita', 'imovel.condicaoImoveis')->where('imoveis_id', $request->imovel_id)->first();
         $mensagem = 'Gostaste do Imóvel.';
         $imovel->update(
             [
@@ -361,7 +357,7 @@ class ActividadeImoveisController extends Controller
 
         );
         $imovel = Imoveis::find($request->imovel_id);
-        $solicitavisita = SolicitarImoveis::with('confirmar_marcacao_visita', 'imovel.condicaoImoveis')->where('imoveis_id', $request->imovel_id)->where('user_marca_visita',auth()->user()->id)->first();
+        $solicitavisita = ArrendarImoveis::with('confirmar_marcacao_visita', 'imovel.condicaoImoveis')->where('imoveis_id', $request->imovel_id)->where('user_marca_visita',auth()->user()->id)->first();
         $mensagem = 'Não gostou do Imóvel.';
         $this->emailSolicitarImovel($solicitavisita, $mensagem);
         $this->enviarSms($request->imovel_id, $mensagem);
@@ -421,7 +417,7 @@ class ActividadeImoveisController extends Controller
     }
 
 
-    
+
     public function carregar_imoveis_processo()
     {
         return response()->json(2);

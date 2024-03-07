@@ -8,14 +8,13 @@
 
     <v-container class=" alinnharcentro">
 
-        <v-card align="center" justify="center" elevation="0" class="w-50 border-3">
+        <v-card align="center" justify="center" elevation="0" class="w-75 border-3">
             <v-img height="250" :src="'/storage/' + casa_selecionada.foto_principal"></v-img>
-                                <v-card-text class="mb-0 pb-0 black--text center"> Código: {{ casa_selecionada.codigo_imovel }}</v-card-text>
                                 <v-card-text class="mt-0 py-0 deep-orange--text text-h4  center">
                                     {{ formatValor(casa_selecionada.preco) }} AKZ
                                 </v-card-text>
                                 <v-card-text class="my-0 py-0 center"> Tipologia:
-                                    <span class="my-0 py-0 purple--text" v-text="casa_selecionada.tipologia_imoveis.designacao"></span>
+                                    <span class="my-0 py-0 deep-orange--text" v-text="casa_selecionada.tipologia_imoveis.designacao"></span>
                                 </v-card-text>
                                 <v-card-text class="my-0 py-0 center"> Provincia:
                                     <span class="my-0 py-0 black--text" v-text="casa_selecionada.municipio.provincia.designacao"></span>

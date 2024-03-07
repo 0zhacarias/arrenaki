@@ -8,6 +8,7 @@ use App\Models\Pessoa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
@@ -22,7 +23,9 @@ class FuncionarioController extends Controller
     {
         $senha='KBC-'. User::count().date('m-d');
         // dd( $senha);
-        $dados['pessoas'] = User::where('tipo_user_id', 1)->get();
+        $dados['pessoas'] = User::with('tipo_user')
+      //  ->where('tipo_user_id', 1)
+        ->get();
         return Inertia::render('Admin/Clientes/Funcionario', $dados);
     }
 
@@ -44,32 +47,35 @@ class FuncionarioController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
         try {
-            DB::beginTransaction();
+
+          //  DB::beginTransaction();
             $user = User::create(
                 [
                     'name' => $request->get('name'),
                     'email' => $request->get('email'),
                     'telefone' => $request->get('telefone'),
-                    'password' => 'KBC-'. User::count().date('m-d'),
+                    'password' => Hash::make('A-'. User::count().date('m-d')),
                     'tipo_user_id' => 1,
                 ]
             );
-            $user->assignRole('Funcionario');
+            //dd($user->id);
+            $user->assignRole('Gerir Funcionario');
             Pessoa::create([
                 'nome'=>$request->get('name'),
                 'sobre_nome'=>$request->get('name'),
-                'telefone'=>$request->get('telefone'),
+                'numero_telefone'=>$request->get('telefone'),
                 'email' => $request->get('email'),
                 'user_id'=>$user->id,
             ]);
-            $this->emailSenha($user);
-            DB::commit();
+
+            //$this->emailSenha($user);
+          //  DB::commit();
             return redirect()->back()->with('success','Funcionario cadastrado com sucesso');
         } catch (\Throwable $th) {
-            DB::rollBack();
+          //  DB::rollBack();
            return redirect()->back()->with('error','Não foi possivel cadastrar o funcionario');
         }
 
@@ -88,7 +94,7 @@ class FuncionarioController extends Controller
             $senha,
             $url,
         ));
-        
+
     }
 
     /**
@@ -122,7 +128,7 @@ class FuncionarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $funcionario=User::find($id);
         $funcionario->update([
             'name'=>$request->get('name'),

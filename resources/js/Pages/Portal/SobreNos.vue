@@ -1,18 +1,18 @@
 <template>
     <PortalLayout>
         <v-container>
-            <span class="text-uppercase py-15" style="font-size: 30px" >
+            <span class="text-uppercase deep-orange--text " style="font-size: 30px" >
                     SOBRE NÓS</span>
         <v-card elevation="0">
-        
-               
-                <v-card-text class="px-15 mx-15 text-h5">
-                    Kubicos é uma plataforma web, que  tem o objectivo de servir como intermediário entre os proprietários, e os colaboradores de um imóveis e os interessados em comprar ou arrendar residências habitacionais. 
-Inicialmente é um projecto startup, com sede em Luanda, criada em 2023, gerida pela grupo "BranZage".<br/>
-A presente ferramenta foi desenvolvida pensando nas particularidades do contexto angolano, garantindo assim mais transparença e segurança em um processo de aquisição de um imóvel, podendo assim gerar declarações de compromisso e posterior-me o proprietário e o cliente validarem as acinaturas. 
 
+                <v-card-text class="px-15 mx-15 text-h5 text-justify">
+                  <p class="">Arrendaki é uma plataforma web, que  tem o objectivo de servir como intermediário entre os proprietários, e os locatarios com interesse de arrendar residências habitacionais. Inicialmente é um projecto startup, com sede em Luanda, bairro azul, criada em 2023, gerida pelo grupo "KofreeImoveis".
+</p>
+<p>
+    A presente ferramenta foi desenvolvida pensando nas particularidades do contexto angolano, garantindo assim mais transparência e segurança em um processo de aquisição de um imóvel, podendo assim gerar declarações de compromisso e posteriores o proprietário e o cliente validarem as assinaturas.
+</p>
                 </v-card-text>
-           
+
 
         </v-card>
     </v-container>

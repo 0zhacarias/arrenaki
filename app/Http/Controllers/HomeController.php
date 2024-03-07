@@ -22,12 +22,13 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        
+
         $this->middleware('auth');
-      
+
     }
     public function index()
     {
+
         // session(['previous_url' => url()->current()]);
         // $previousUrl2 = session('previous_url');
         session(['previous_url' => url()->previous()]);
@@ -48,29 +49,29 @@ class HomeController extends Controller
         $dados['tipoImoveis']=TipoImoveis::all();
         // $dados['novos_imoveis']=Imoveis::with('fotosImoveis','condicaoImoveis','actividadeImoveis.operacaoImoveis','estadoImoveis')->orderBy('created_at','desc')->get();
         // $dados['mais_proximos']=Imoveis::with('fotosImoveis','condicaoImoveis','actividadeImoveis.operacaoImoveis','estadoImoveis')->get();
-      
+
        // dd($previousUrl);
         if($previousUrl== $urlPerfil ||$previousUrl== $urlLogin ||$previousUrl== $urlHome || $previousUrl){
             // dd($previousUrl);
-            return Inertia::render('Portal/PortalIndex');  
+            return Inertia::render('Portal/PortalIndex');
             // }else if($previousUrl== $urlLogin){
-            //     return Inertia::render('Portal/PortalIndex');  
+            //     return Inertia::render('Portal/PortalIndex');
             }else if($previousUrl== $urlListarArrendado){
-                return Inertia::render('Portal/ListaImoveis',$dados);  
+                return Inertia::render('Portal/ListaImoveis',$dados);
             }else if($previousUrl== $urlListarComprar){
                 // session()->flush();
-                return Inertia::render('Portal/ListaImoveis',$dados);  
+                return Inertia::render('Portal/ListaImoveis',$dados);
             }else if($previousUrl==$urlAnunciar){
 
-                return Inertia::render('Portal/ImoveisCriar',$dados);  
-            
+                return Inertia::render('Portal/ImoveisCriar',$dados);
+
             }else if($previousUrl==$urlRegistrar){
 
-                return Inertia::render('Admin/Clientes/Cliente',$dados);  
+                return Inertia::render('Admin/Clientes/Cliente',$dados);
             }
      // dd($dados);
         // $this->redirecionarUsuario();
-        
+
         // return Inertia::render('Portal/PortalIndex', $dados);
         // return Inertia::render('Admin/Home');
     }
@@ -84,10 +85,10 @@ $baseUrl = "http://127.0.0.1:8000";
 
 // Remove a parte do prefixo da URL
 $route = str_replace($baseUrl, '', $url);
-       
+
 if($previousUrl=="http://127.0.0.1:8000/logar"){
     // dd($previousUrl,$route);
-    return Inertia::render('Portal/PortalIndex');  
+    return Inertia::render('Portal/PortalIndex');
     }
         // return redirect($previousUrl);
     }

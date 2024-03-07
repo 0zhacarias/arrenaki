@@ -4,7 +4,7 @@
             <!-- <v-subheader class="text-h5 text-bold mt-10 ">Minhas solicitações: {{ imoveis_processos.length }}</v-subheader>  -->
 
             <v-row>
-                <v-col cols="12" md="12" class="pa-0  mt-15 purple">
+                <v-col cols="12" md="12" class="pa-0  mt-15 deep-orange">
                     <v-card-actions>
                         <span class=" white--text text-bold text-h5">
                             Minhas solicitações: {{ imoveis_processos.length }}
@@ -17,14 +17,14 @@
                         </v-card-title>
                         <!-- <v-text-field v-model="imobiliaria.pesquisar" outlined dense label="Contacto*" type="text">
                         </v-text-field> -->
-                        <v-btn icon elevation="5" color="indigo" class="white" outlined rounded title="Pesquisar"
+                        <v-btn icon elevation="5" color="#FF5E00" class="white" outlined rounded title="Pesquisar"
                             @click="carregarDialogimobiliaria(item)">
                             <v-icon>
                                 mdi-magnify
                             </v-icon>
 
                         </v-btn>
-                        <v-btn icon color="indigo" outlined rounded class="white" title="Emitir Relatório do processo"
+                        <v-btn icon color="#FF5E00" outlined rounded class="white" title="Emitir Relatório do processo"
                             @click="emitirRelatoriosProcesso(item)">
                             <v-icon>
                                 mdi mdi-file-document-multiple
@@ -43,13 +43,13 @@
     <v-divider class="mx-1"></v-divider>
 
     <!-- <v-card-title v-text="item.designacao"></v-card-title> -->
-    <v-card-text class="mb-0 pb-0 black--text text-center"> Código: {{
-        item.codigo_imovel }}</v-card-text>
-    <v-card-text class="mt-0 py-0 purple--text text-h4  text-center">
+  <!--   <v-card-text class="mb-0 pb-0 black--text text-center"> Código: {{
+        item.codigo_imovel }}</v-card-text> -->
+    <v-card-text class="mt-0 py-0 deep-orange--text text-h4  text-center">
         {{ formatValor(item.preco) }} AKZ
     </v-card-text>
     <v-card-text class="my-0 py-0 text-center"> Tipologia:
-        <span class="my-0 py-0 purple--text text-h6 text-bold"
+        <span class="my-0 py-0 deep-orange--text text-h6 text-bold"
             v-text="item.tipologia_imoveis.designacao"></span>
     </v-card-text>
     <v-card-text class="my-0 py-0 text-center"> Provincia:
@@ -157,7 +157,7 @@ export default {
         Cliente
     },
     data: () => ({
-        found: false, 
+        found: false,
         loading: null,
         snackbar: false,
         textnaovalidado: `Descontinuidade do processo da negociação do Imóvel`,

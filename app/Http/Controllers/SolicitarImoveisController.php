@@ -18,10 +18,10 @@ class SolicitarImoveisController extends Controller
    public function __construct()
    {
 
-      $this->emailFuncionario = new ActividadeImoveisController();
+    //  $this->emailFuncionario = new ActividadeImoveisController();
    }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -97,26 +97,10 @@ class SolicitarImoveisController extends Controller
     {
         //
     }
-    public function solicitar_visita_imovel(Request $request)
+    public function arrendar_imovel(Request $request)
     {
-      /* $funcionario=Pessoa::whereHas('usuario',function($query) {
-                $query->where('tipo_user_id',1);
-            })->get();
-        $mensagem="O Imovel XXXXX foi solicitado uma visita pelo cliente XX";
-        $solicitar_visita = SolicitarImoveis::create([
-            'designacao' => $request->get('designacao'),
-            'hora_visita' => $request->get('hora_visita'),
-            'data_visita' => $request->get('data_visita'),
-            'actividade_imoveis_id' => $request->get('actividade_imoveis_id'),
-            'imoveis_id' => $request->get('imoveis_id'),
-            'estado_imoveis_id' => 4,
-            'user_marca_visita' => auth()->user()->id,
-            
-            ]);*/
-        $solicitavisita = SolicitarImoveis::with('usuario_marca_visita')
-            ->where('imoveis_id', $request->imoveis_id)->where('user_marca_visita', null)->first();
-               $solicitavisita->create(
-                ['funcionario_id' => auth()->user()->id,
+               $solicitavisita=SolicitarImoveis::create(
+                ['user_marca_visita' => auth()->user()->id,
                 'imoveis_id'=>$request->imoveis_id]
                );
             $data_auxiliar = strtotime($request->data_contrato . "+" . $request->tipo_contrato . "months");
@@ -127,15 +111,13 @@ class SolicitarImoveisController extends Controller
             $casa->update([
             'data_contrato_fim'=>$request->get('data_contrato_fim'),
             'data_contrato'=>$request->get('data_contrato'),
-            'estado_imoveis_id'=>7,
-
+            'estado_imoveis_id'=>8,
             ]);
             $data['casa_selecionada']=$casa;
-       
             $data['data_contrato']=$casa->data_contrato;
             $data['tipo_contrato']=$casa->tipo_contrato;
             $data['data_contrato_fim']=date('Y-m-d', $data_auxiliar);
-         
+
         return Inertia::render('Admin/Clientes/SolicitarVisista',$data);
     }
     public function pdf_contrato($id)
@@ -148,10 +130,10 @@ class SolicitarImoveisController extends Controller
             'contratoPDF' => $contrato,
             'nome' => $username,
             'datatime' => date('Y-m-d'),
-         
+
             // 'quantidade_modulo_projecto'=>$quantidade,
         ]);
-       
+
          return $pdf->stream('Contrato.pdf');
         //return $pdf->stream('Listas tipo de problemas projecto.pdf');
         # code...
@@ -176,7 +158,7 @@ class SolicitarImoveisController extends Controller
         $hora_visita = $solicitavisita->hora_visita;
         $url = action([ImoveisController::class, 'portal_imovel']);
         // dd($solicitavisita);
-      
+
         foreach($emailfuncionarios as $emailfuncionario){
              Mail::to('zhacarias50@outlook.com')->send(new EmailSolicitarVisitas(
             $mensagem,

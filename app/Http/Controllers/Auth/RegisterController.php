@@ -44,7 +44,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-    } 
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -73,7 +73,7 @@ class RegisterController extends Controller
         $bairro_rua=$data['bairro']. $data['rua'];
         //dd( $bairro_rua);
         if(is_numeric($data['email'])){
-            
+
             $user = User::create([
                 'name' => $data['name'],
                 'telefone' => $data['email'],
@@ -81,7 +81,7 @@ class RegisterController extends Controller
                 'tipo_user_id' => $data['tipo_user_id'],
                 'password' => Hash::make($data['password']),
             ]);
-            
+
             Pessoa::create([
                 'nome'=>$data['name'],
                 'sobre_nome'=>$data['name'],
@@ -104,26 +104,22 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'user_id'=>$user->id,
                 'bairro'=>$bairro_rua,
-               
+
             ]);
         };
-     
+
        if($data['tipo_user_id']== 1){
         $user->assignRole('Funcionario');
 
        }elseif ($data['tipo_user_id']== 2) {
         $user->assignRole('Locatario');
-       
+
        }elseif ($data['tipo_user_id']== 3) {
         $user->assignRole('Proprietários');
-       
-       }elseif ($data['tipo_user_id']== 4) {
-        $user->assignRole('Colaborador');
-       
-       }elseif ($data['tipo_user_id']== 5) {
-        $user->assignRole('Corretor');
+       }else{
+        $user->assignRole('Locatario');
        }
-    
+
         return $user;
 
     }

@@ -33,7 +33,7 @@
 
                                                     <v-text-field :rules="[rules.required]"
                                                         placeholder="Data de nascimento*" outlined dense
-                                                        label="Nome completo*" name="name" v-model="user.data_nascimento"
+                                                        label="Data de nascimento*" name="name" v-model="user.data_nascimento"
                                                         type="date" prepend-icon="mdi-account-circle" />
                                                 </v-col>
                                                 <v-col cols="12" md="12">
@@ -55,7 +55,7 @@
 
                                 <v-stepper-content step="2">
 
-                                        <v-form v-model="isValid">
+                                        <v-form v-model="isValid" ref="form2" lazy-validation>
                                             <v-row class="pa-3">
                                                 Utilizador
                                                 <v-col cols="12">
@@ -69,7 +69,7 @@
                                                         v-model="user.email" prepend-icon="mdi-account-circle" />
                                                 </v-col>
                                                 <v-col cols="12">
-                                                    <v-text-field :rules="[rules.required]" outlined dense
+                                                    <v-text-field :rules="passwordRules" outlined dense
                                                         id="Palavra-Passe" label="Palavra-Passe" v-model="user.password"
                                                         name="password" prepend-icon="mdi-lock" :append-icon="showPassword
                                                             ? 'mdi-eye'
@@ -90,9 +90,10 @@
                                                 </v-col>
                                                     <v-col cols="12">
                                                         <v-btn block color="#FF5E00" dark
-                                                            @click="e1 = 3"><v-icon></v-icon> Continuar
+                                                        @click="continuar(3, 'form2')"
+                                                          ><v-icon></v-icon> Continuar
                                                         </v-btn>
-                                                        <v-btn  color="#FF5E00" dark class="my-3"
+                                                        <v-btn  color="#FF5E00" dark class="my-3" icon
                                                             @click="e1 = 1"><v-icon>fa fa-arrow-left </v-icon>
                                                         </v-btn>
                                       </v-col>
@@ -103,7 +104,7 @@
 
                                 <v-stepper-content step="3">
 
-                                    <v-form v-model="isValid">
+                                    <v-form v-model="isValid" ref="form3" lazy-validation>
                                             <v-row class="pa-3">
                                                 Utilizador
                                                 <v-col cols="12">
@@ -113,14 +114,14 @@
                                                         item-text="designacao"
                                                         item-value="id"
                                                         :items="provincias" prepend-icon="mdi-lock"
-                                                        item-color="indigo" required />
+                                                        item-color="deep-orange" required />
                                                 </v-col>
                                                 <v-col cols="12">
                                                     <v-autocomplete :rules="[rules.required]" outlined id="espacotrabalho"
                                                         label="Município" v-model="user.municipio_id"
                                                         item-text="designacao"
                                                         item-value="id"
-                                                        name="municipio" dense :items="municipios" prepend-icon="mdi-lock"
+                                                        dense :items="municipios" prepend-icon="mdi-lock"
                                                         item-color="indigo" required />
                                                 </v-col>
                                                 <v-col cols="12">
@@ -129,7 +130,7 @@
                                                         v-model="user.bairro" prepend-icon="mdi-account-circle" />
                                                 </v-col>
                                                 <v-col cols="12">
-                                                    <v-text-field placeholder="Rua*"
+                                                    <v-text-field placeholder="Rua*" :rules="[rules.required]"
                                                         outlined dense label="Rua" name="rua"
                                                         v-model="user.rua" prepend-icon="mdi-account-circle" />
                                                 </v-col>
@@ -137,7 +138,7 @@
                                                         <v-btn block color="#FF5E00" dark class="my-2"
                                                             @click="setLogin()"><v-icon>login</v-icon> Cadastrar
                                                         </v-btn>
-                                                        <v-btn  color="#FF5E00" dark
+                                                        <v-btn  color="#FF5E00" dark icon
                                                             @click="e1 = 2"><v-icon> fa fa-arrow-left </v-icon>
                                                         </v-btn>
                                                     </v-col>
@@ -189,8 +190,11 @@ export default {
         emailRules: [
             (value) => /.+@.+\..+/.test(value) || /^\d{9}$/.test(value) || "E-mail ou numero de telefone válido",
         ],
+        passwordRules: [
+            (value) => (!!value && value.length >=8) || "A palvra-passe de possuir no minimo 8 caracter",
+        ],
         docRules: [
-                (value)=>(value.length == 14 && /^\d{9}[A-Z]{2}\d{3}$/.test(value)) || "O nº de documento não corresponde com o padrão!!!"
+                (value)=>( !!value && value.length == 14 && /^\d{9}[A-Z]{2}\d{3}$/.test(value) ) || "O nº de documento não corresponde com o padrão!!!"
                         ],
 
 
@@ -220,7 +224,7 @@ export default {
                 .post("/portal/municipios", this.id_provincia)
                 .then((response) => {
                     // this.loading = false;
-                    // alert(JSON.stringify(this.municipos));
+                     //alert(JSON.stringify(response.data));
                     this.municipios = response.data
                 })
                 .catch(() => {
@@ -231,6 +235,9 @@ export default {
         },
         setLogin() {
             // alert(this.user.tipo_user_id)
+            if (this.$refs["form3"].validate()) {
+
+
             if (this.user.tipo_user_id == null) {
                 this.alertError = true
             } else {
@@ -238,6 +245,7 @@ export default {
 
                 });
             }
+        }
             // window.sessionStorage.setItem('redirectRoute', this.$route.fullPath),
 
             // if(response.status === 201){

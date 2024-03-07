@@ -15,18 +15,20 @@
     <div id="details" class="main-content">
         <div class="invoice-container">
             <div id="invoice">
-            <h3 class="siste">Arrendaaki (Contrato da casa<)</h3>
+            <h3 class="siste">Arrendaki (Contrato da casa)</h3>
             <!--     <h5>Contrato da casa</h5> -->
             </div>
             <p  class="texto">
-                Para efito de um contrato de compromisso, nós Arrendaki, 
-                informamos ao senhor: {{ $nome }} que o contrato da casa com o código: {{ $contratoPDF->codigo_imovel }}, foi fechado o contrato com as seguintes propriedades
-                 descrições da casa{{  $contratoPDF->descricao }}, tipologia {{  $contratoPDF->tipologiaImoveis->descricao }} , provincia
-              {{  $contratoPDF->municipio->provincia->descricao }} Municipio, {{ $contratoPDF->municipio->descricao }} Endereço {{  $contratoPDF->rua_bairro }} Data inicial do contrado, {{  $contratoPDF->data_contrato   }}
-                Data final do contrato {{ $contratoPDF->data_contrato_fim }} 
-            </p><br/>
-        </div>
 
+            Recebemos a solicitação de arrendamento do sr: {{ $nome }}  para arrendar o imóvel {{ $contratoPDF->designacao }} ,localizado no munícipio de
+             {{ $contratoPDF->municipio->descricao }}, com preço {{ $contratoPDF->preco }}, para que seja confirmada  aguardamos o comprovativo.
+             </p>
+             <p class="assinaturas">Ib an 1: <b>AO06 0000 0000 0000 0000 0000</b></p>
+             <p class="assinaturas">Iban 2: <b>AO06 0000 0000 0000 0000 0000</b></p>
+Arrendaki
+
+            <br/>
+        </div>
             <p class="assinaturas">Assinatura do proprietario :<u> <b>{{ $contratoPDF->usuario->name}}</b></u></p>
             <p  class="assinaturas">Assinatura do Cliente: <u> <b>{{$nome}}</b></u></p>
 

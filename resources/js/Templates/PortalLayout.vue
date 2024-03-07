@@ -9,60 +9,60 @@
     <v-spacer class=""></v-spacer>
             <v-toolbar-items>
                 <v-btn
-                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#000"  href="/"
+                    class="d-none d-lg-flex btn-custom-nm ml-5  deep-orange--text" color="#000"  href="/"
                     elevation="0" text>
                     Inicio
                 </v-btn>
                 <v-btn @click="storePreviousUrl('/portal/listaImoveisArrendamentos')"
-                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" href="/portal/listaImoveisArrendamentos"
+                    class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text" color="#000" href="/portal/listaImoveisArrendamentos"
                     elevation="0" text>
                     Casa
                 </v-btn>
 
-                <v-btn dense v-if="user == null" @click="anuncios()" class="d-none d-lg-flex btn-custom-nm ml-5" color="#000"
+                <v-btn dense v-if="user == null" @click="anuncios()" class="d-none d-sm-flex btn-custom-nm ml-5 deep-orange--text " color="#000"
                     elevation="0" text>
                     Cadastrar Casa
                 </v-btn>
                 <v-btn dense v-if="user !== null && user.can['Cadastrar Casa']" @click="anuncios()"
-                    class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" elevation="0" text>
+                    class="d-none hidden-xs-only  d-lg-flex btn-custom-nm ml-5 deep-orange--text" color="#000" elevation="0" text>
                     Cadastrar Casas
                 </v-btn>
 
             </v-toolbar-items>
 
             <v-toolbar-items>
-                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5" color="#000" href="/logar"
+                <v-btn v-if="user == null" class="d-none d-sm-flex btn-custom-nm ml-5 deep-orange--text" color="#000" href="/login"
                     elevation="0" text>
                     Login
                 </v-btn>
-                <v-btn v-if="user == null" class="d-none d-lg-flex btn-custom-nm ml-5 white--text" color="#FF5E00" href="/RegistrarConta"
+                <v-btn v-if="user == null" class="d-none d-sm-flex btn-custom-nm ml-5 white--text" color="#FF5E00" href="/RegistrarConta"
                 elevation="0" >
                     Cadastra-me
                 </v-btn>
-                <v-btn v-if="user !== null &&  user.can['Gerir Anúncios']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-anuncios"
+                <v-btn v-if="user !== null &&  user.can['Gerir Anúncios']" class="hidden-xs-only d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"  href="/clientes/meus-anuncios"
                 elevation="0" text>
                     Gerir casas
                 </v-btn>
-                <v-btn v-if="user !== null &&  user.can['Gerir Pedidos']" class="d-none d-lg-flex btn-custom-nm ml-5"  href="/clientes/meus-processo"
+                <v-btn v-if="user !== null &&  user.can['Gerir Pedidos']" class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"  href="/clientes/meus-processo"
                 elevation="0" text>
                     Meus pedidos
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Funcionario']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/pessoa"
+                <v-btn v-if="user !== null && user.can['Gerir Funcionario']" class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"  href="/pessoa"
                 elevation="0"  text>
                 Funcionarios
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Relatórios']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"
+                <v-btn v-if="user !== null && user.can['Gerir Relatórios']" class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"  href="/clientes/permissoes"
                 elevation="0"  text>
                     Relatório
                 </v-btn>
-                <v-btn v-if="user !== null && user.can['Gerir Permissões']" class="d-none d-lg-flex btn-custom-nm ml-5 "  href="/clientes/permissoes"
+                <v-btn v-if="user !== null && user.can['Gerir Permissões']" class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"  href="/clientes/permissoes"
                 elevation="0"  text>
                     Permissões
                 </v-btn>
-                <v-btn dense class="d-none d-lg-flex btn-custom-nm ml-5 " color="#000" href="/sobre-nos" elevation="0" text>
+                <v-btn dense class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text" color="#000" href="/sobre-nos" elevation="0" text>
                     Sobre Nós
                 </v-btn>
-                <v-btn v-if="user !== null" text href="/clientes/meu-perfil" dense class="d-none d-lg-flex btn-custom-nm ml-5 "
+                <v-btn v-if="user !== null" text href="/clientes/meu-perfil" dense class="d-none d-lg-flex btn-custom-nm ml-5 deep-orange--text"
                     color="#000">
                     <v-icon class="mdi mdi-account-reactivate white--text" title="Perfil">
 
@@ -71,7 +71,7 @@
                     <!-- {{ user.email}} -->
                 </v-btn>
 
-                <v-btn class="hidden-xs-only" text v-if="user !== null" @click="logout" title="Terminar Sessão"> {{ user.name}}
+                <v-btn class="hidden-xs-only deep-orange--text" text v-if="user !== null" @click="logout" title="Terminar Sessão"> {{ user.name}}
                     <v-icon>mdi-export{{ }}</v-icon>
                 </v-btn>
             </v-toolbar-items>
@@ -241,13 +241,14 @@ export default {
 
 
             } else {
-                window.location.href = "/logar" ;
+                window.location.href = "/login" ;
             }
 
         },
 
         logar() {
-            this.$inertia.get("/logar").then((response) => {
+          //  this.$inertia.get("/logar").then((response) => {
+            this.$inertia.get("/login").then((response) => {
                 // window.location.reload();
             }).catch((error) => {
                 console.log(error);
@@ -297,7 +298,7 @@ body {
 
 .linkstilo {
     text-decoration: none !important;
-    color: #4527A0;
+    color: #fff;
 
 }
 </style>

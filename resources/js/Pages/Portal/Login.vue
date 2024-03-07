@@ -4,7 +4,7 @@
 
         <v-container class=" alinnharcentro">
 
-            <v-card align="center" justify="center" elevation="0" class="w-25">
+            <v-card align="center" justify="center" elevation="0" class="w-50">
 
                 <v-card-text class="text-h3">Arrendaki</v-card-text>
                 <v-card-text fluid class="justify-center">

@@ -53,14 +53,18 @@
                                                                         <v-autocomplete :items="this.mobiliados"
                                                                             item-value="designacao" item-text="designacao"
                                                                             v-model="imovel.mobiliado" label="Mobiliado*"
-                                                                            dense outlined>
+                                                                            dense outlined  :rules="CampoRules">
 
                                                                         </v-autocomplete>
                                                                     </v-col>
                                                                     <v-col cols="12">
                                                                         <v-text-field v-model="imovel.preco" type="number"
-                                                                            outlined dense :rules="CampoRules"
-                                                                            label="Valor a ser Arrendado do Imovel*"></v-text-field>
+                                                                            outlined dense :rules="PrecoRules"
+                                                                            placeholder="Valor a ser Arrendado do Imovel*"
+                                                                            minlength="1000"
+                maxlegth="99999999999"
+                min="1000"
+                max="99999999999"></v-text-field>
                                                                     </v-col>
 
                                                                     <v-col cols="12">
@@ -90,13 +94,13 @@
                                                                         <v-autocomplete :items="this.municipios"
                                                                             item-value="id" item-text="designacao"
                                                                             v-model="imovel.municipio_id" label="Cidades*"
-                                                                            dense outlined>
+                                                                            dense outlined  :rules="CampoRules">
 
                                                                         </v-autocomplete>
                                                                     </v-col>
                                                                     <v-col cols="12">
                                                                         <v-text-field v-model="imovel.rua_bairro" dense
-                                                                            label="Rua, Bairo" outlined type="gps">
+                                                                            label="Rua, Bairo" outlined type="gps"  :rules="CampoRules">
 
                                                                         </v-text-field>
                                                                     </v-col>
@@ -393,6 +397,9 @@ export default {
         },
 
         CampoRules: [(value) => !!value || "Campos obrigatório."],
+        PrecoRules: [
+            (value) => (!!value && value>1000) || "O valor é que 1000 ou o campo está vazio",
+        ],
         emailRules: [(v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido"],
         telefoneRules: [
             (v) => !!v || "Campo telefone obrigatório.",

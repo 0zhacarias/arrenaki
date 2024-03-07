@@ -3,7 +3,7 @@
         <!-- <v-subheader>Meus Anúcios</v-subheader> -->
         <v-container class="w-90 justify-space-around">
             <v-row>
-                <v-col cols="12" md="12" class="pa-0  mt-15 indigo">
+                <v-col cols="12" md="12" class="pa-0  mt-15 deep-orange">
                     <v-card-actions>
                         <span class=" white--text text-bold text-h5">
                             Funcionarios ({{ pessoas.length }})
@@ -16,13 +16,13 @@
                         </v-card-title>
                         <!-- <v-text-field v-model="imobiliaria.pesquisar" outlined dense label="Contacto*" type="text">
                         </v-text-field> -->
-                        <v-btn icon elevation="5" color="indigo" class="white" outlined rounded
+                        <v-btn icon elevation="5" color="deep-orange" class="white" outlined rounded
                             title="Pesquisar" @click="carregarDialogimobiliaria(item)">
                             <v-icon>
                                 mdi-magnify
                             </v-icon>
                         </v-btn>
-                        <v-btn icon color="indigo" outlined rounded class="white" title="Cadastrar Funcionario"
+                        <v-btn icon color="deep-orange" outlined rounded class="white" title="Cadastrar Funcionario"
                                     @click="carregarDialogpessoa(item)">
                                     <v-icon>
                                         mdi mdi-plus
@@ -34,7 +34,7 @@
                 <v-col v-for="item in pessoas" :key="item.id" cols="12" sm="6" md="2" lg="4">
                     <v-hover v-slot="{ hover }">
 
-                        <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"  
+                        <v-card class=" elevation-10 pa-2 ma-3 border" :elevation="hover ? 10 : 0"
                         :style="'white-space:nowrap; padding:0;max-width: 100%; position:relative;top:10px; ; border-radius: 10px 80px 10px 60px;'">
                             <!-- <v-img height="150" src="/img/pexels-dids-2969915.jpg"></v-img> -->
                             <!-- <v-img height="100" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.2)" :src="'/storage/' +
@@ -47,11 +47,13 @@
                                 </div>
                                 <div > <span class="font-weight-bold">Contacto:</span> {{ item.telefone }}
                                 </div>
+                                <div > <span class="font-weight-bold">Função:</span> {{ item.tipo_user.designacao }}
+                                </div>
                             </v-card-text>
                             <!-- <v-card-title v-text="item.designacao"></v-card-title> -->
 <v-divider class="ma-0 pa-0"></v-divider>
                             <v-card-actions class="justify-end">
-                                <v-btn icon color="deep-purple lighten-2" outlined rounded title="Editar Imóvel"
+                                <v-btn icon color="indigo" outlined rounded title="Editar Imóvel"
                                     @click="carregarDialogEditarpessoa(item)">
                                     <v-icon>
                                         mdi mdi-pencil-outline
@@ -107,7 +109,7 @@
                                 <v-btn color="red darken-1" text @click="fecharDialog()">
                                     fechar
                                 </v-btn>
-                                <v-btn color="blue darken-1" text @click="editarpessoa()">
+                                <v-btn color="indigo" text @click="editarpessoa()">
                                  {{ editedIndex > -1 ? 'Editar  ' : 'Cadastrar' }} funcionario
                                 </v-btn>
                             </v-card-actions>
@@ -119,7 +121,7 @@
                                 eliminar?</v-card-title>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn rounded outlined color="indigo" @click="dialogDelete = false">Não</v-btn>
+                                <v-btn rounded outlined color="deep-orange" @click="dialogDelete = false">Não</v-btn>
                                 <v-btn rounded outlined color="red" @click="deleteItemConfirm()">Sim</v-btn>
                                 <v-spacer></v-spacer>
                             </v-card-actions>
@@ -127,9 +129,9 @@
                     </v-dialog>
                 </v-row>
                 <v-snackbar v-model="snackbar"  :multi-line="multiLine" :timeout="8000" outlined
-                    color="deep-purple accent-4">
+                color="deep-orange">
                     {{ textvalidado }}
-                    <v-btn color="indigo" text @click="snackbar = false">
+                    <v-btn color="deep-orange" text @click="snackbar = false">
                         Close
                     </v-btn>
                 </v-snackbar>
@@ -237,7 +239,7 @@ export default {
         editarpessoa() {
             if (this.editedIndex > -1) {
                 axios
-                
+
                     .put(`/pessoa/${this.pessoa.id}`, this.pessoa )
                     .then((response) => {
                         //   this.resposta = response.data
@@ -256,7 +258,7 @@ export default {
                     {
 
                         onFinish: () => {
-                           
+
                             // this.pessoa = Object.assign({}, this.defautpessoa);
                             if (this.$page.props.flash.success != null) {
                                 Vue.toasted.global.defaultSuccess({
@@ -271,12 +273,12 @@ export default {
                                     msg: "" + this.$page.props.flash.error,
                                 });
                             }
-                            this.fecharDialog();
                         },
 
                     }
-                    
+
                 );
+                            this.fecharDialog();
             };
 
         },

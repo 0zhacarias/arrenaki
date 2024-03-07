@@ -36,7 +36,7 @@
                                     <v-col sm="4" md="4" class="center">
                                         <span class="text-caption">Provincia : {{imoveis.municipio.provincia.designacao }}</span><br />
                                         <span class="text-caption">Mobiliado : {{imoveis.mobiliado}}</span><br />
-                                        <span class="text-caption">Mobiliado : {{imoveis.estado_imoveis.designacao}}</span><br />
+                                        <span class="text-caption">Estado do imóvel : {{imoveis.estado_imoveis.designacao}}</span><br />
 
 
                                     </v-col>
@@ -45,7 +45,7 @@
                             </v-card>
                             <v-row justify="space-around" class="pt-6">
                                 <v-col cols="12">
-                                    <v-autocomplete :rules="required" outlined
+                                    <v-autocomplete :disabled="imoveis.estado_imoveis_id==7 || imoveis.estado_imoveis_id==8"  :rules="required" outlined
                                         label="Tipo de contrato (Meses)" v-model="visitar.tipo_contrato" @change="getMunicipio()"
                                         name="tipo_utilizador" dense item-text="designacao" item-value="id"
                                         :items="contratos" item-color="indigo" required />
@@ -292,7 +292,7 @@ export default {
                 this.overlay = false
                 if (this.$page.props.auth.user !== null) {
                     this.visitar.imoveis_id = this.imoveis.id,
-              this.$inertia.get(`/portal/solicitar-visita`, this.visitar, {
+              this.$inertia.get(`/portal/arrendar-visita`, this.visitar, {
                 onFinish: () => {
                     if (this.$page.props.flash.success != null) {
                         this.snackbar = true
@@ -307,7 +307,7 @@ export default {
                 },
             });
                 } else {
-                    window.location.href = "/logar";
+                    window.location.href = "/login";
                 }
             }, 3000)
         },

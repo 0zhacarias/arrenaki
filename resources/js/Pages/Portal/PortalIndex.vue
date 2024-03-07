@@ -6,7 +6,7 @@
             <v-toolbar-title class="darken-3 elevation-0 ">
                 <v-img gradient="to top right, rgba(55,5,201,.1), rgba(25,32,72,.6)"
                     :style="'white-space:nowrap; padding:0;max-width: 100%;height:75vh; position:relative;top:10px;'"
-                    src="/img/angola.jpg">
+                    src="/img/tela1.jpg">
                     <v-row class="p-0">
                         <v-col cols="12" sm="2" md="2" :style="' white-space:nowrap; padding:0; '">
                         </v-col>
@@ -30,11 +30,8 @@
             <v-container>
                 <v-row no-gutters justify="pt-15" :style="'justify-content: center;'" class="pt-14">
                     <v-card-text class="center text-h6 px-12">
-
-                        <span class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione voluptate doloremque neque
-                            facilis doloribus
-                            sint aliquid dolorem rem optio inventore nobis eaque quasi molestiae, quos architecto quod
-                            laboriosam, esse amet.</span>
+                        <span class="">No Arrendaki, oferecemos uma seleção cuidadosa de propriedades para alugar de qualidade, desde apartamentos aconchegantes até casas espaçosas para a família.
+                            Se você é um estudante, um jovem profissional ou uma família em crescimento, temos o espaço ideal para atender às suas necessidades....</span>
                     </v-card-text>
                     <v-col v-for="item in novos_imoveis" :key="item.id" cols="12" sm="12" md="6" lg="6"
                         :style="'max-width: min-content;'" >
@@ -317,7 +314,7 @@ table {
 
 @media(max-width: 768px) {
     .textotela>h1 {
-        color: #6943af;
+        color: #fff;
         padding: 5%;
         font-size: 3.5rem;
     }

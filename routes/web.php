@@ -18,13 +18,13 @@ use Laravel\Socialite\Facades\Socialite;
 | contains the "web" middleware group. Now create something great!
 |*/
 
-Route::get('/',[App\Http\Controllers\ImoveisController::class,'index'])->name('index');
+//Route::get('/',[App\Http\Controllers\ImoveisController::class,'index'])->name('index');
 Route::get('/RegistrarConta', function () {
     $data['tipo_utilizadores']=TipoUser::whereIn('id',[2,3])->get();
     $data['provincias']=Provincias::get();
     return Inertia::render('Portal/RegistrarConta',$data);
     // return view('welcome');
-});
+})->name('RegistrarConta');
 
 Route::get('/Registrar-conta', function () {
     return Inertia::render('Portal/RegistrarConta');
@@ -45,9 +45,9 @@ Route::resource('/imoveis',App\Http\Controllers\ImoveisController::class);
 Route::resource('/imobiliaria-proprietario',App\Http\Controllers\ProprietarioController::class);
 Route::resource('/venda-arendamento',App\Http\Controllers\VendaController::class);
 Route::resource('/Solicitar-venda',App\Http\Controllers\VendaController::class);
-Route::resource('/Solicitar-arrendamento',App\Http\Controllers\ArrendamentoController::class);
+Route::resource('/Solicitar-arrendamento',App\Http\Controllers\ArrendarImoveisController::class);
 Route::resource('/Pagamento',App\Http\Controllers\PagamentoController::class);
-Route::get('/solicitar-visita',[App\Http\Controllers\SolicitarImoveisController::class,'solicitar_visita_imovel'])->name('solicitar-visita');
+Route::get('/arrendar-visita',[App\Http\Controllers\ArrendarImoveisController::class,'arrendar_imovel'])->name('solicitar-visita');
 Route::post('/municipios',[App\Http\Controllers\ImoveisController::class,'municipios'])->name('municipios');
 Route::post('/tipo-tipologia',[App\Http\Controllers\ImoveisController::class,'tipo_tipologia'])->name('tipo-tipologia');
 Route::post('/update-imoveis',[App\Http\Controllers\ImoveisController::class,'update'])->name('atualizar-imoveis');
@@ -91,7 +91,7 @@ Auth::routes();
 //     return Inertia::render('Portal/PortalIndex');
 //     // return view('welcome');
 // })->name('index');
-Route::get('/',[App\Http\Controllers\ImoveisController::class,'portal_imovel'])->name('index');
+Route::get('/',[App\Http\Controllers\ImoveisController::class,'portal_imovel'])->name('indexs');
 
 Route::get('/perfil',[App\Http\Controllers\ClienteController::class,'perfil_cliente']);
 Route::resource('/home', App\Http\Controllers\HomeController::class);
@@ -100,7 +100,7 @@ Route::resource('/condominios', App\Http\Controllers\CondominioController::class
 Route::get('/paginarwte', [App\Http\Controllers\HomeController::class, 'portal_auth'])->name('home');
 // Route::get('/listar-pdf-tickets/{estado}
 Route::get('/pdf-declaracao', [App\Http\Controllers\ClienteController::class, 'pdf_declaracao'])->name('declaracao');
-Route::get('/pdf-contrato/{id}', [App\Http\Controllers\SolicitarImoveisController::class, 'pdf_contrato'])->name('pdf_contrato');
+Route::get('/pdf-contrato/{id}', [App\Http\Controllers\ArrendarImoveisController::class, 'pdf_contrato'])->name('pdf_contrato');
 Route::post('/nao-validar-processo', [App\Http\Controllers\ActividadeImoveisController::class, 'nao_validar_processo'])->name('naovalidar');
 Route::post('/validar-processo', [App\Http\Controllers\ActividadeImoveisController::class, 'validar_processo'])->name('validar');
 Route::post('/gostar-imovel', [App\Http\Controllers\ActividadeImoveisController::class, 'gostar_imovel'])->name('gostar');

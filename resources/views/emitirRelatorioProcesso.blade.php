@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Declaração do imóvel</title>
+    <title>Lista de todas as casas</title>
 
     <style>
         * {
@@ -157,7 +157,7 @@
         }
 
         .table-bill th {
-            color: #0034bb;
+            color: #000;
             font-weight: 500;
         }
 
@@ -373,14 +373,14 @@
             font-size: 15px;
         }
     </style>
-    
+
 </head>
 {{-- <div id="logo">
     <img width="210" src="img/LogoM/mutue_helpdesk-h.png">
 </div> --}}
 <header class="clearfix main-content1">
     <div id="company">
-        <h2 class="name">Arrendaki</h2>   
+        <h2 class="name">Arrendaki</h2>
         <div>Luanda-Angola</div>
 
     </div>
@@ -391,7 +391,7 @@
     <div id="details" class="main-content">
         <div class="invoice-container">
             <div id="invoice">
-                <h5>Declaração do processo do imóvel
+                <h5>Lista de todas as casas
                     <span class="spas">Total de
                         Registros:{{ count($emitirRelatorioProcesso) }}
                     </span>
@@ -399,15 +399,14 @@
             </div>
             <div class="table-bill">
                 <table>
-                    <thead>
-                        <th>#</th>
-                        <th>Nome do Imóvel</th>
+                <thead>
+                        <th>Nº</th>
+                        <th>Nome do Casa</th>
+                         <th>Estado do Casa</th>
+                        <th>Mobiliado </th>
                         <th>Localização publicado</th>
-                        <th>Condição </th>
-                        <th>Nome do Projecto</th>
-                        {{-- <th>Tipo de operação</th> --}}
                         <th>Publicado por</th>
-                        <th>Data e Hora de abertura</th>
+                        <th>Data da publicação</th>
                     </thead>
                     <tbody>
                         {{-- <table>
@@ -437,30 +436,22 @@
                         </table> --}}
                    @if (count($emitirRelatorioProcesso))
                             @foreach ($emitirRelatorioProcesso as $imovel)
-                                <tr>
+                            <tr>
                                     <td><span class="subtitulos">{{ $loop->iteration }}</span></td>
                                     <td><span class="subtitulos">{!! $imovel->designacao !!}</span></td>
-                                    <td><span class="subtitulos">{{ $imovel->localizacao }}</span></td>
+                                    <td><span class="subtitulos">{{ $imovel->estadoImoveis->designacao}}</span></td>
+                                    <td><span class="subtitulos">{!! $imovel->mobiliado !!}</span></td>
+                                    <td><span class="subtitulos">{{ $imovel->municipio->designacao }}</span></td>
                                     <td><span class="subtitulos">{{ $imovel->usuario->pessoa->nome }}</span></td>
-                                    <td><span class="subtitulos">
-                                            {{-- @if ($imovel->resposta)
-                                                @foreach ($imovel->resposta as $resposta)
-                                                    @if ($resposta->user && $resposta->user->funcionario && $resposta->user->funcionario->funcao_id == 3)
-                                                        {{ $resposta->user->funcionario->nome_funcionario }}
-                                                    @break
-                                                @endif
-                                            @endforeach
-                                        @endif --}}
-                                    </span></td>
-                                <td><span class="subtitulos">{{ $imovel->created_at }}</span></td>
-                            </tr>
+                                    <td><span class="subtitulos">{{ $imovel->created_at }}</span></td>
+                                </tr>
                             <tr>
                                 <td><span class="titulos">Descrição</span></td>
                                 <td colspan="7" class="line"><span
                                         class="subtitulos">{!! $imovel->descricao !!}</span></td>
                             </tr>
                         @endforeach
-                    @endif 
+                    @endif
                 </tbody>
             </table>
 
@@ -498,4 +489,3 @@ table tr:not(:first-child):not(:nth-child(2)) {
     background-color: #f2f2f2; /* Cor de fundo das outras linhas */
 }
 </style> --}}
-    

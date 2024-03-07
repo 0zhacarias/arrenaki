@@ -11,7 +11,7 @@ use App\Models\Municipios;
 use App\Models\OperacaoImoveis;
 use App\Models\Pessoa;
 use App\Models\Provincias;
-use App\Models\SolicitarImoveis;
+use App\Models\ArrendarImoveis;
 use App\Models\TipoImoveis;
 use App\Models\Tipologia;
 use App\Models\TipoUser;
@@ -103,7 +103,7 @@ class ClienteController extends Controller
         // Remove a parte do prefixo da URL
         $numerousuario = str_replace('244', '', $request->get('numero_telefone'));
         $utilizador = User::find($request->user_id);
-        
+
         $nomeRoles = $utilizador->getRoleNames()->first();
         $utilizador->removeRole($nomeRoles);
         $rolesanterior = $utilizador->tipo_user_id;
@@ -171,7 +171,7 @@ class ClienteController extends Controller
 
 
         if (auth()->user()) {
-            
+
             $userLog = auth()->user()->load('tipo_user');
             $dados['cliente'] = User::where('id', $userLog->id)->first();
             $dados['provincias'] = Provincias::all();
@@ -181,14 +181,14 @@ class ClienteController extends Controller
             $dados['meus_imoveis'] = Imoveis::where('publicado_por', $userLog->id)
                 ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
             $dados['meus_pagamentos'] = Imoveis::with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
+            $id_user_marca_visita = ArrendarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
             if ($userLog->tipo_user_id == 1) {
 
                 $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
                     ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
                     ->get();
             } else {
-               
+
                 $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
                     ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
             }
@@ -215,7 +215,7 @@ class ClienteController extends Controller
         if (auth()->user()) {
             $userLog = auth()->user()->load('tipo_user');
             if ($userLog->tipo_user->id == 1) {
-                $dados['tipoUsuario'] = TipoUser::where('deleted_at',null)->all();
+                $dados['tipoUsuario'] = TipoUser::where('deleted_at',null)->get();
             } else {
                 $dados['tipoUsuario'] = TipoUser::where('deleted_at',null)->whereNotIn('id', [1,6])->get();
             }
@@ -225,7 +225,7 @@ class ClienteController extends Controller
             $dados['meus_imoveis'] = Imoveis::where('publicado_por', $userLog->id)
                 ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
             $dados['meus_pagamentos'] = Imoveis::with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
+            $id_user_marca_visita = ArrendarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
             if ($userLog->tipo_user_id == 1) {
 
                 $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])
@@ -255,17 +255,18 @@ class ClienteController extends Controller
             $dados['meus_imoveis'] = Imoveis::where('publicado_por', $userLog->id)
                 ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->orderBy('created_at', 'desc')->get();
             $dados['meus_pagamentos'] = Imoveis::with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
+            $id_user_marca_visita = ArrendarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
             if ($userLog->tipo_user_id == 1) {
 
                 $dados['imoveis_processos'] = Imoveis::with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')
                     ->orderBy('created_at', 'desc')
                     ->get();
             } else {
-                $id_user_marca_visita=SolicitarImoveis::where('user_marca_visita',$userLog->id)->whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])->select('imoveis_id')->get();
-                $dados['imoveis_processos'] = Imoveis::whereIn('id', $id_user_marca_visita)
+              
+                $id_user_marca_visita=ArrendarImoveis::where('user_marca_visita',$userLog->id)->select('imoveis_id')->get();
+                $dados['imoveis_processos'] = Imoveis::whereIn('estado_imoveis_id', [4, 5, 6, 7, 8])->whereIn('id', $id_user_marca_visita)
                 ->with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-              //  dd($dados);
+               
             }
             return Inertia::render('Admin/Clientes/MeusImoveisProcesso', $dados);
         } else {
@@ -288,10 +289,10 @@ class ClienteController extends Controller
             $userLog = auth()->user()->load('tipo_user');
             $dados['cliente'] = User::where('id', $userLog->id)->first();
             $dados['meus_pagamentos'] = Imoveis::with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis.operacaoImoveis', 'estadoImoveis')->get();
-            $id_user_marca_visita = SolicitarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
+            $id_user_marca_visita = ArrendarImoveis::where('user_marca_visita', $userLog->id)->select('imoveis_id')->get();
             if ($userLog->tipo_user_id == 1) {
-               
-                $dados['meus_imoveis'] = Imoveis::    
+
+                $dados['meus_imoveis'] = Imoveis::
                 with('tipologiaImoveis','municipio.provincia','solicitacaoImoveis','fotosImoveis', 'condicaoImoveis', 'actividadeImoveis', 'estadoImoveis')
                 ->orderBy('created_at', 'desc')->get();
                 $dados['operacoes'] = OperacaoImoveis::all();
